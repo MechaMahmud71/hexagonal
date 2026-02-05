@@ -1,0 +1,21 @@
+import { AlarmItem } from "./alarm-item";
+import { AlarmSeverity } from "./value-objects/alarm-serverity";
+
+export class Alarm {
+    public name: string;
+    public severity: AlarmSeverity;
+    public triggeredAt: Date;
+    public isAcknowledged:boolean = false;
+    public items = new Array<AlarmItem>()
+    constructor(
+        public id: string
+    ) { }
+
+    public acknowledge(){
+        this.isAcknowledged=true;
+    }
+
+    public addAlarmItem(item:AlarmItem){
+        this.items.push(item)
+    }
+}
