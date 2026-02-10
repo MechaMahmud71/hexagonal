@@ -58,27 +58,20 @@ export class RabbitMqAlarmMessageConsumer {
         }
     }
 
-    @MessagePattern('alarm.save.topic')
-    async handleAlarmCreated_2(@Payload() data: any, @Ctx() context: RmqContext) {
+    @MessagePattern('alarm.*.topic')
+    async handleAlarmCreated_topic(
+        @Payload() data: any,
+        @Ctx() context: RmqContext,
+    ) {
         const channel = context.getChannelRef();
-        const originalMsg = context.getMessage();
+        const msg = context.getMessage();
 
         try {
-            this.logger.log(`📨 Received alarm.save.topic event: ${JSON.stringify(data)}`);
-
-            // Update the materialized view (read model)
-            await this.alarmMessageHandler.handle(data)
-
-            this.logger.log(`✅ Materialized view updated for alarm: ${data.alarmId}`);
-
-            // Acknowledge the message
-            channel.ack(originalMsg);
-        } catch (error) {
-            this.logger.error(`❌ Error processing alarm.created: ${error.message}`, error.stack);
-
-            // Reject and don't requeue (send to DLQ if configured)
-            // Use true as 3rd param to requeue on failure
-            channel.nack(originalMsg, false, false);
+            // await this.alarmMessageHandler.handle(data);
+            this.logger.log(`📨 Received alarm.created event: ${JSON.stringify(data)}`);
+            channel.ack(msg);
+        } catch (e) {
+            channel.nack(msg, false, false);
         }
     }
 

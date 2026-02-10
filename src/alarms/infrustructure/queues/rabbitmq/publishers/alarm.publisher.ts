@@ -30,7 +30,8 @@ export class RabbitMqAlarmEventPublisher implements AlarmEventPublisher, OnModul
     async publishAlarmCreated(alarm: AlarmCreatedEvent): Promise<void> {
         // this.client.emit('alarm.created', alarm);
         // this.clientNew.emit('alarm.created_1', alarm);
-        this.clientTopic.emit('alarm.save.topic', alarm);
+        const routingKey = `alarm.${alarm.severity.value}.topic`;
+        this.clientTopic.emit(routingKey, alarm);
     }
 
     async publishAlarmAcknowledged(alarmId: string): Promise<void> {

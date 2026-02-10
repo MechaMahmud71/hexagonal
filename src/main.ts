@@ -43,12 +43,8 @@ async function bootstrap() {
       urls: ['amqp://localhost:5672'],
       queue: 'alarms_queue_2',
       exchange: 'alarms_topic_exchange',
-      queueOptions: {
-        durable: false,
-      },
-      exchangeType: 'topic',
-      noAck: false,
-      prefetchCount: 10,
+      exchangeType: 'topic', // 👈 REQUIRED
+      queueOptions: { durable: false },
     },
   });
   await app.startAllMicroservices();

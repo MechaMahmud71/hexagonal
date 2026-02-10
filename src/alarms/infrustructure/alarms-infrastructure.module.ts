@@ -37,9 +37,8 @@ export class AlarmsInfrastructureModule {
                 serviceName: ALARM_TOPIC_SERVICE,
                 queueName: 'alarms_queue_2',
                 exchangeName: 'alarms_topic_exchange',
-                routingKey: 'alarms.*.topic',
                 url: 'amqp://localhost:5672',
-                exchangeType: 'topic'
+                exchangeType: 'topic',
             })
         )
 
