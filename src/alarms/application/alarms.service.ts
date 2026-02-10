@@ -7,15 +7,14 @@ import { GetAlarmsQuery } from './quries/get-alarms.query';
 @Injectable()
 export class AlarmsService {
   constructor(
-    private readonly commandBus:CommandBus,
-    private readonly queryBus:QueryBus
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus
   ) { }
   async create(createAlarmDto: CreateAlarmCommand) {
     return this.commandBus.execute(createAlarmDto)
   }
 
-  findAll() {
-    return this.queryBus.execute(new GetAlarmsQuery());
+  async findAll(getAlarmsQuery: GetAlarmsQuery) {
+    return this.queryBus.execute(getAlarmsQuery);
   }
-
 }

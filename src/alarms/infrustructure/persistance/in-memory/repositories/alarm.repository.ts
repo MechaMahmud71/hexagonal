@@ -6,6 +6,7 @@ import { FindAlarmsRepository } from '../../../../application/ports/find-alarms.
 import { UpsertMaterializedAlarmRepository } from '../../../../application/ports/upsert-materialized-alarm.repository';
 import { AlarmReadModel } from '../../../../domain/read-models/alarm.read-model';
 import { CreateAlarmRepository } from 'src/alarms/application/ports/create-alarm.repository';
+import { AlarmPaginationModel } from 'src/alarms/domain/read-models/alarm.pagination-model';
 
 @Injectable()
 export class InMemoryAlarmRepository
@@ -17,8 +18,10 @@ export class InMemoryAlarmRepository
   private readonly alarms = new Map<string, AlarmEntity>();
   private readonly materializedAlarmViews = new Map<string, AlarmReadModel>();
 
-  async findAll(): Promise<AlarmReadModel[]> {
-    return Array.from(this.materializedAlarmViews.values());
+  async findAll(): Promise<AlarmPaginationModel> {
+    return {
+      items:Array.from(this.materializedAlarmViews.values()),
+    };
   }
 
   async save(alarm: Alarm): Promise<Alarm> {

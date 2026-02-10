@@ -6,6 +6,7 @@ import { Logger } from "@nestjs/common";
 import { Alarm } from "src/alarms/domain/alarm";
 import { AlarmCreatedEvent } from "src/alarms/domain/events/alarm-created.event";
 import { AlarmSeverity } from "src/alarms/domain/value-objects/alarm-serverity";
+import { AlarmEventPublisher } from "../ports/alarm-event-publisher";
 
 @CommandHandler(CreateAlarmCommand)
 export class CreateAlarmCommandHandler implements ICommandHandler<CreateAlarmCommand> {
@@ -15,7 +16,7 @@ export class CreateAlarmCommandHandler implements ICommandHandler<CreateAlarmCom
     constructor(
         private readonly alarmFactory: AlarmFactory,
         private readonly alarmRepository: CreateAlarmRepository,
-        private readonly eventBus: EventBus
+        private readonly alarmEventPublisher: AlarmEventPublisher
     ) { }
 
     async execute(command: CreateAlarmCommand): Promise<Alarm> {
@@ -30,7 +31,7 @@ export class CreateAlarmCommandHandler implements ICommandHandler<CreateAlarmCom
             command.items,
         );
         const newAlarm = this.alarmRepository.save(alarm);
-        this.eventBus.publish(new AlarmCreatedEvent(alarm))
+        this.alarmEventPublisher.publishAlarmCreated(alarm);
         return newAlarm;
     }
 }

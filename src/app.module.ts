@@ -8,15 +8,15 @@ import { CoreModule } from './core/core.module';
 import { CqrsModule } from '@nestjs/cqrs';
 
 @Module({
-  imports: [CqrsModule.forRoot(),CoreModule],
+  imports: [CqrsModule.forRoot(), CoreModule],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {
-  static register(options:ApplicationBootstrapOptions){
-    return{
-      module:AppModule,
-      imports:[
+  static register(options: ApplicationBootstrapOptions) {
+    return {
+      module: AppModule,
+      imports: [
         CoreModule.forRoot(options),
         AlarmsModule.withInfrastructure(AlarmsInfrastructureModule.use(options.driver))
       ]
