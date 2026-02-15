@@ -28,7 +28,8 @@ export class RabbitMqModule {
                         exchange: exchangeName,
                         routingKey: routingKey,
                         exchangeType: exchangeType,
-                        bindingKey: bindingKey
+                        bindingKey: bindingKey,
+                        headers: options.headers
                     }
                 }
             ])

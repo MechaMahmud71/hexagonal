@@ -1,4 +1,4 @@
-import { RabbitMqModuleOptions } from "src/alarms/infrustructure/queues/rabbitmq/rabbitmq-module-options.interface";
+import { RabbitMqModuleOptions } from "src/common/adapters/queues/rabbitmq/rabbitmq-module-options.interface";
 
 export interface ApplicationBootstrapOptions {
   driver: 'orm' | 'in-memory';
